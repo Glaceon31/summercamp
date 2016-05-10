@@ -8,6 +8,8 @@ function register(){
 		d['password'] = document.getElementById('passwd').value
 		d['name'] = document.getElementById('name').value
 		d['email'] = document.getElementById('email').value
+		d['college'] = document.getElementById('college').value
+		d['department'] = document.getElementById('department').value
 		$.ajax({
 			type:"POST",
 			url:"/userregister",
@@ -86,6 +88,8 @@ function register(){
  	  			document.getElementById('username').innerHTML=result['username']
  	  			document.getElementById('name').innerHTML=result['name']
  	  			document.getElementById('email').innerHTML=result['email']
+ 	  			document.getElementById('college').innerHTML=result['college']
+ 	  			document.getElementById('department').innerHTML=result['department']
  	  		}
  	  		else{
  	  		}

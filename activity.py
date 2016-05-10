@@ -1,5 +1,5 @@
 #-*- coding: utf-8 -*-
-from flask import request, redirect, url_for
+from flask import request, redirect, url_for, send_from_directory
 from app import app, db
 import traceback
 import json
@@ -149,3 +149,16 @@ def submit():
 		result['message'] = u'后台错误'
 		return result['message']
 	return result['message']
+
+@app.route('/getapplymaterial', methods=['GET', 'POST'])
+def getapplymaterial():
+	'''
+	jsondata = request.form
+	data = immutabledict2dict(jsondata)
+	result = {'success' :0}
+	'''
+	try:
+		directory='applications'
+		return send_from_directory(directory=directory,filename='zip')
+	except:
+		traceback.print_exc()

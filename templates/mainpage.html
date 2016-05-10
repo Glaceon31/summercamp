@@ -34,7 +34,7 @@
     applylist = getapplylist()
     for (i in applylist){
       apply = applylist[i]
-      document.getElementById('applies').innerHTML += '<tr><td>'+apply['title']+'</td><td>'+apply['end']+'</td><td>'+apply['status']+'</td><td><a href="'+apply['newsdetail']+'">查看</a></td></tr>'
+      document.getElementById('applies').innerHTML += '<tr><td>'+apply['title']+'</td><td>'+apply['end']+'</td><td>'+apply['status']+'</td><td><a href="#" onclick="getapplymaterial(\''+apply['title']+'\')">查看</a><br><a href="/applymodify">修改</a><br><a href="#" onclick="apply_cancel(\''+apply['title']+'\')">取消</a><br></td></tr>'
     }
   }
   </script>
@@ -62,7 +62,7 @@
                 <td>项目名称</td>
                 <td>报名截止时间</td>
                 <td>状态</td>
-                <td>详细信息</td>
+                <td>操作</td>
               </tr>
             </table>
           </div>
@@ -80,6 +80,7 @@
               </tr>
             </table>
           </div>
+          <div class="pad"></div>
   			</div>
   			<div class="col-sm-3">
   				<h3 class='title'>最新消息</h3>

@@ -101,6 +101,8 @@ def getuserinfo():
         result['username'] = tmp['username']
         result['name'] = tmp['name']
         result['email'] = tmp['email']
+        result['college'] = tmp['college']
+        result['department'] = tmp['department']
         result['success'] = 1
         return json.dumps(result)
     except:

@@ -56,12 +56,12 @@ function apply_submit(){
 	})*/
 }
 
-function apply_cancel(){
+function apply_cancel(title){
 	d = {}
  	d['userid'] = getCookie('useridthu')
  	d['username'] = getCookie('usernamethu')
  	d['token'] = getCookie('tokenthu')
- 	d['title'] = document.getElementById('applies').value
+ 	d['title'] = title
  	$.ajax({
 			type:"POST",
 			url:"/cancel",
@@ -77,4 +77,8 @@ function apply_cancel(){
  	  		}
  	  	}
 	})
+}
+
+function getapplymaterial(title){
+	window.location='/getapplymaterial'
 }

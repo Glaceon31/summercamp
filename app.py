@@ -37,6 +37,10 @@ def apply():
 	activitylist = getactivity()
 	return render_template('apply.html', activitylist = activitylist)
 
+@app.route('/applymodify')
+def applymodify():
+	return render_template('applymodify.html')
+
 @app.route('/activity')
 def activity():
 	#appliedlist = get

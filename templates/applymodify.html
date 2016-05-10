@@ -15,15 +15,15 @@
     $("#activity").append(new Option(activity['title']),activity['title'])
    }
   }
-/*
+
   function showapplylist() {
     applylist = getapplylist()
     for (i in applylist){
       apply = applylist[i]
-      $('#applies').append(new Option(apply['title'], apply['title']))
+      $('#title').append(new Option(apply['title'], apply['title']))
     }
 
-  }*/
+  }
   </script>
   <body onload="checklogin();getactivitylist();showapplylist();">
   	
@@ -34,11 +34,11 @@
   				<ul class="nav nav-pills nav-stacked">
    					<li><a href="/mainpage">首页</a></li>
    					<li><a href="/news">新闻通知</a></li>
-   					<li class="active"><a href="#">申请</a></li>
+   					<li><a href="/apply">申请</a></li>
 				</ul>
   			</div>
   			<div class="col-sm-8">
-  				<h3 class='title'>申请项目</h3>
+  				<h3 class='title'>修改申请</h3>
 				<hr>
         <form role="form" enctype=multipart/form-data id="applyform" name="applyform" action="/submit" method="POST">
           <div class="formgroup">
@@ -51,7 +51,7 @@
             <input type="file" name="file"/>
             <p class="help-block">请提交zip格式文件</p>
           </div>
-          <button type="button" onclick="apply_submit()">申请</button>
+          <button type="button" onclick="apply_submit()">修改</button>
 
         </form>
         <div class="pad"></div>
