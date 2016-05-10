@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+
+  {% include 'header.html' %}
+  <body onload="checklogin()">
+	  <div class="mainframe" id="mainframe" style="display:none">
+	  	{% include 'topbanner.html'%}
+	  	{% include 'userinfo.html' %}
+	  	<a href="/mainpage">首页</a>
+	  	<a href="/news">新闻通知</a>
+	  	<a href="/apply">申请</a>
+	  	<a href="/account">账号管理</a>
+	  	{% include 'footer.html' %}
+	  </div>
+  </body>
+  
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+  {% include 'header.html' %}
+  <script type="text/javascript">
+  function showrecentnews(){
+   regS = new RegExp("&#34;", "g")
+   regS2 = new RegExp("&#39;", "g")
+   regSand = new RegExp("&amp;", "g")
+   regSu = new RegExp('u"', "g")
+   newslist = "{{newslist}}".replace(regS,'"').replace(regS2, '"').replace(regSand, '&').replace(regSu,'"')
+   newslist = JSON.parse(newslist)
+   for (i in newslist){
+    news = newslist[i]
+    document.getElementById('newslist').innerHTML += '<nospan class="recentnewsdate">'+news['date']+'</nospan><br><a class="recentnews" href="news/'+news['newsdetail']+'">'+news['title'] +'</a><br><br>'
+   }
+  }
+  </script>
+  <body onload="checklogin();showrecentnews();">
+  	
+  	<div class="container" id="mainframe" style="display:none">
+      {% include 'topbanner.html' %}
+  		<div class="row">
+  			<div class="col-sm-3">
+  				<ul class="nav nav-pills nav-stacked">
+   					<li><a href="/mainpage">首页</a></li>
+   					<li class="active"><a href="#">新闻通知</a></li>
+   					<li><a href="/apply">申请项目</a></li>
+				</ul>
+  			</div>
+  			<div class="col-sm-8">
+  				<h3 class='title'>新闻列表</h3>
+				<hr>
+        <div class="newslist" id="newslist"></div>
+        </div>
+  	</div>
+	  	{% include 'footer.html' %}
+	  </div>
+  </body>
+  
+</html>

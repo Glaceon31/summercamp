@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+
+  {% include 'header.html' %}
+  <script type="text/javascript">
+  function showrecentnews(){
+   regS = new RegExp("&#34;", "g")
+   regS2 = new RegExp("&#39;", "g")
+   regSand = new RegExp("&amp;", "g")
+   regSu = new RegExp('u"', "g")
+   newslist = "{{newslist}}".replace(regS,'"').replace(regS2, '"').replace(regSand, '&').replace(regSu,'"')
+   newslist = JSON.parse(newslist)
+   for (i in newslist){
+    news = newslist[i]
+    document.getElementById('newsglance').innerHTML += '<nospan class="recentnewsdate">'+news['date']+'</nospan><br><a class="recentnews" href="news/'+news['newsdetail']+'">'+news['title'] +'</a><br><br>'
+   }
+  }
+
+  function showactivitylist() {
+    regS = new RegExp("&#34;", "g")
+   regS2 = new RegExp("&#39;", "g")
+   regSand = new RegExp("&amp;", "g")
+   regSu = new RegExp('u"', "g")
+   activitylist = "{{activitylist}}".replace(regS,'"').replace(regS2, '"').replace(regSand, '&').replace(regSu,'"')
+   activitylist = JSON.parse(activitylist)
+   for (i in activitylist){
+    activity = activitylist[i]
+    document.getElementById('activitylist').style.display = ""
+    document.getElementById('activities').innerHTML += '<tr><td>'+activity['title']+'</td><td>'+activity['start']+'</td><td>'+activity['end']+'</td><td><a href="'+activity['newsdetail']+'">查看</a></td></tr>'
+   }
+  }
+
+  function showapplylist(){
+    applylist = getapplylist()
+    for (i in applylist){
+      apply = applylist[i]
+      document.getElementById('applies').innerHTML += '<tr><td>'+apply['title']+'</td><td>'+apply['end']+'</td><td>'+apply['status']+'</td><td><a href="'+apply['newsdetail']+'">查看</a></td></tr>'
+    }
+  }
+  </script>
+  <body onload="checklogin();showuserinfo();showrecentnews();showactivitylist();showapplylist()">
+  	
+  	<div class="container" id="mainframe" style="display:none">
+      {% include 'topbanner.html' %}
+  		<div class="row">
+  			<div class="col-sm-3">
+  				<ul class="nav nav-pills nav-stacked">
+   					<li class="active"><a href="#">首页</a></li>
+   					<li><a href="/news">新闻通知</a></li>
+   					<li><a href="/apply">申请</a></li>
+				</ul>
+  			</div>
+  			<div class="col-sm-6">
+  				<h3 class='title'>个人信息</h3>
+				<hr>
+  				{% include 'userinfo.html' %}
+  				<div class="pad"></div>
+          <h3 class='title'>已申请项目</h3>
+          <div class="applylist" id="applylist" display="none">
+            <table border="1" class="applies" id="applies">
+              <tr>
+                <td>项目名称</td>
+                <td>报名截止时间</td>
+                <td>状态</td>
+                <td>详细信息</td>
+              </tr>
+            </table>
+          </div>
+        <hr>
+        <div class="pad"></div>
+  				<h3 class='title'>项目列表</h3>
+  				<hr>
+          <div class="activitylist" id="activitylist" display="none">
+            <table border="1" class="activities" id="activities">
+              <tr>
+                <td>项目名称</td>
+                <td>报名开始时间</td>
+                <td>报名截止时间</td>
+                <td>详细信息</td>
+              </tr>
+            </table>
+          </div>
+  			</div>
+  			<div class="col-sm-3">
+  				<h3 class='title'>最新消息</h3>
+				<hr>
+				<div class="newsglance" id="newsglance"></div>
+  			</div>
+  		</div>
+	  	{% include 'footer.html' %}
+	  </div>
+  </body>
+  
+</html>

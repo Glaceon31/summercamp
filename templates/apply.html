@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+
+  {% include 'header.html' %}
+  <script type="text/javascript">
+  function getactivitylist() {
+    regS = new RegExp("&#34;", "g")
+   regS2 = new RegExp("&#39;", "g")
+   regSand = new RegExp("&amp;", "g")
+   regSu = new RegExp('u"', "g")
+   activitylist = "{{activitylist}}".replace(regS,'"').replace(regS2, '"').replace(regSand, '&').replace(regSu,'"')
+   activitylist = JSON.parse(activitylist)
+   for (i in activitylist){
+    activity = activitylist[i]
+    $("#activity").append(new Option(activity['title']),activity['title'])
+   }
+  }
+
+  function showapplylist() {
+    applylist = getapplylist()
+    for (i in applylist){
+      apply = applylist[i]
+      $('#applies').append(new Option(apply['title'], apply['title']))
+    }
+
+  }
+  </script>
+  <body onload="checklogin();getactivitylist();showapplylist();">
+  	
+  	<div class="container" id="mainframe" style="display:none">
+      {% include 'topbanner.html' %}
+  		<div class="row">
+  			<div class="col-sm-3">
+  				<ul class="nav nav-pills nav-stacked">
+   					<li><a href="/mainpage">首页</a></li>
+   					<li><a href="/news">新闻通知</a></li>
+   					<li class="active"><a href="#">申请</a></li>
+				</ul>
+  			</div>
+  			<div class="col-sm-8">
+  				<h3 class='title'>申请项目</h3>
+				<hr>
+        <form role="form" enctype=multipart/form-data id="applyform" name="applyform" action="/submit" method="POST">
+          <div class="formgroup">
+            <label for="name">选择项目</label>
+            <select class="form-control" id="activity" name="title">
+            </select>
+          </div>
+          <div class="formgroup">
+            <label for="name">提交材料</label>
+            <input type="file" name="file"/>
+            <p class="help-block">请提交zip格式文件</p>
+          </div>
+          <button type="button" onclick="apply_submit()">申请</button>
+
+        </form>
+        <div class="pad"></div>
+        <h3 class='title'>取消申请</h3>
+        <hr>
+        <form role="form">
+          <div class="formgroup">
+            <label for="name">选择项目</label>
+            <select class="form-control" id="applies">
+            </select>
+          </div>
+          <p class="help-block">需要修改材料时，请取消申请后再重新申请</p>
+          <button type="button" onclick="apply_cancel()">取消申请</button>
+        </div>
+        <div class="pad"></div>
+  	</div>
+	  	{% include 'footer.html' %}
+	  </div>
+  </body>
+  
+</html>
