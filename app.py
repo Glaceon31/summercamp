@@ -86,4 +86,4 @@ from admin import *
 from activity import *
 
 if __name__ == '__main__':
-    app.run('0.0.0.0', port = 6789)
+    app.run('0.0.0.0', port = 7654)
