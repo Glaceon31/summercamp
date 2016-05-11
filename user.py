@@ -8,7 +8,8 @@ from tools import *
 
 userdb = db.user
 
-
+userinfolist = ['username', 'name', 'email', 'college', 'department'\
+                'identity', 'mobile', 'address', 'postcode']
 
 @app.route('/userregister', methods=['POST'])
 def userregister():
@@ -98,11 +99,10 @@ def getuserinfo():
         if tmp['token'] != data['token']:
             result['message'] = u'请重新登录'
             return json.dumps(result)
-        result['username'] = tmp['username']
-        result['name'] = tmp['name']
-        result['email'] = tmp['email']
-        result['college'] = tmp['college']
-        result['department'] = tmp['department']
+        for i in userinfolist:
+            if not tmp.has_key(i):
+                tmp[i] = ''
+            result[i] = tmp[i]
         result['success'] = 1
         return json.dumps(result)
     except:

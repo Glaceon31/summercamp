@@ -3,7 +3,7 @@
   {% include 'header.html' %}
   <body class="loginregbody">
     <div class="container">
-      <form class="form-info">
+      <form class="form-info" style="max-width: 400px">
         <h2 class="form-info-heading">注册新用户</h2>
           <label for="username" class="sr-only" >用户名：</label>
           用户名：<input class="form-control" id="username" type="text">
@@ -18,7 +18,15 @@
           <label for="college" class="sr-only" >学校：</label>
           学校：<input class="form-control" id="college" type="text"> 
           <label for="department" class="sr-only" >院系：</label>
-          院系：<input class="form-control" id="department" type="text" style="margin-bottom:10px"> 
+          院系：<input class="form-control" id="department" type="text"> 
+          <label for="identity" class="sr-only" >身份证：</label>
+          身份证：<input class="form-control" id="identity" type="text"> 
+          <label for="mobile" class="sr-only" >手机：</label>
+          手机：<input class="form-control" id="mobile" type="text"> 
+          <label for="address" class="sr-only" >地址：</label>
+          地址：<input class="form-control" id="address" type="text"> 
+          <label for="postcode" class="sr-only" >邮编：</label>
+          邮编：<input class="form-control" id="postcode" type="text" style="margin-bottom:10px"> 
           <button type="button" class="btn btn-lg btn-primary btn-block" onclick="register()">注册</button>
           <a href="/entrance">返回</a>
       </form>

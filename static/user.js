@@ -10,6 +10,10 @@ function register(){
 		d['email'] = document.getElementById('email').value
 		d['college'] = document.getElementById('college').value
 		d['department'] = document.getElementById('department').value
+		d['identity'] = document.getElementById('identity').value
+		d['mobile'] = document.getElementById('mobile').value
+		d['address'] = document.getElementById('address').value
+		d['postcode'] = document.getElementById('postcode').value
 		$.ajax({
 			type:"POST",
 			url:"/userregister",
