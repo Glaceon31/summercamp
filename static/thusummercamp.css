@@ -1,13 +1,4 @@
 
-.cover {
-  padding: 0 20px;
-}
-.cover .btn-lg {
-  padding: 10px 20px;
-  font-weight: bold;
-}
-
-
 .loginregbody{
   padding-top: 40px;
   padding-bottom: 40px;
@@ -49,39 +40,6 @@
   border-top-right-radius: 0;
 }
 
-.top_banner{
-	width: 100%;
-}
-
-.footer{
-	position: relative;
-	text-align: center;
-	font-size:15px;
-	margin: 0px auto 0 auto;
-	width: 100%;
-	padding-top: 10px;
-	padding-bottom: 10px;
-	background-color: #337ab7;
-	bottom: 0;
-	color: #fff;
-}
-
-.topbanner{
-	width: 100%;
-	height: 100px;
-	background-color: #337ab7;
-	margin-bottom: 30px;
-}
-
-.topbanner-inner{
-	padding-top:10px;
-	padding-bottom:auto;
-}
-
-.topbanner-text{
-	font-size:40px;
-	color: #fff;
-}
 
 .pad{
 	padding-top: 40px;
@@ -93,6 +51,44 @@
 }
 
 .recentnewsdate{
-
   font-size: 15px;
 }
+
+    /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
+    .row.content {height: 1000px}
+    
+    /* Set gray background color and 100% height */
+    .sidenav {
+      background-color: #f1f1f1;
+      height: 100%;
+    }
+        
+    /* On small screens, set height to 'auto' for the grid */
+    @media screen and (max-width: 767px) {
+      .row.content {height: auto;} 
+    }
+
+/* Remove the navbar's default margin-bottom and rounded borders */ 
+    .navbar {
+      margin-bottom: 0;
+      border-radius: 0;
+    }
+    
+    /* Add a gray background color and some padding to the footer */
+    footer {
+      background-color: #f2f2f2;
+      padding: 25px;
+    }
+    
+  .carousel-inner img {
+      width: 100%; /* Set width to 100% */
+      margin: auto;
+      min-height:200px;
+  }
+
+  /* Hide the carousel text when the screen is less than 600 pixels wide */
+  @media (max-width: 600px) {
+    .carousel-caption {
+      display: none; 
+    }
+  }

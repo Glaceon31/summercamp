@@ -3,19 +3,6 @@
 
   {% include 'header.html' %}
   <script type="text/javascript">
-  function getactivitylist() {
-    regS = new RegExp("&#34;", "g")
-   regS2 = new RegExp("&#39;", "g")
-   regSand = new RegExp("&amp;", "g")
-   regSu = new RegExp('u"', "g")
-   activitylist = "{{activitylist}}".replace(regS,'"').replace(regS2, '"').replace(regSand, '&').replace(regSu,'"')
-   activitylist = JSON.parse(activitylist)
-   for (i in activitylist){
-    activity = activitylist[i]
-    $("#activity").append(new Option(activity['title']),activity['title'])
-   }
-  }
-
   function showapplylist() {
     applylist = getapplylist()
     for (i in applylist){
@@ -25,40 +12,22 @@
 
   }
   </script>
-  <body onload="checklogin();getactivitylist();showapplylist();">
-  	
-  	<div class="container" id="mainframe" style="display:none">
-      {% include 'topbanner.html' %}
-  		<div class="row">
-  			<div class="col-sm-3">
-  				<ul class="nav nav-pills nav-stacked">
-   					<li><a href="/mainpage">首页</a></li>
-   					<li><a href="/news">新闻通知</a></li>
-   					<li><a href="/apply">申请</a></li>
-				</ul>
-  			</div>
-  			<div class="col-sm-8">
-  				<h3 class='title'>修改申请</h3>
-				<hr>
-        <form role="form" enctype=multipart/form-data id="applyform" name="applyform" action="/submit" method="POST">
-          <div class="formgroup">
+  <body class="loginregbody" onload="checklogin();showapplylist();">
+    <div class="container">
+        <form role="form" class="form-info" enctype=multipart/form-data id="applyform" name="applyform" action="/applymodifysubmit" method="POST">
+
             <label for="name">选择项目</label>
-            <select class="form-control" id="activity" name="title">
+            <select class="form-control" id="title" name="title">
             </select>
-          </div>
-          <div class="formgroup">
+
+
             <label for="name">提交材料</label>
             <input type="file" name="file"/>
             <p class="help-block">请提交zip格式文件</p>
-          </div>
-          <button type="button" onclick="apply_submit()">修改</button>
 
+          <button type="button" onclick="applymodify_submit()">修改</button>
         </form>
-        <div class="pad"></div>
-        </div>
-  	</div>
-	  	{% include 'footer.html' %}
-	  </div>
+    </div>
   </body>
   
 </html>

@@ -80,5 +80,30 @@ function apply_cancel(title){
 }
 
 function getapplymaterial(title){
-	window.location='/getapplymaterial'
+	d = {}
+	d['title'] = title
+ 	d['userid'] = getCookie('useridthu')
+ 	d['username'] = getCookie('usernamethu')
+ 	d['token'] = getCookie('tokenthu')
+ 	d['killcache'] = Math.random()
+ 	jsondata = JSON.stringify(d)
+	window.location='/getapplymaterial/'+jsondata
+}
+
+function applymodify_submit(){
+	d = {}
+ 	d['userid'] = getCookie('useridthu')
+ 	d['username'] = getCookie('usernamethu')
+ 	d['token'] = getCookie('tokenthu')
+ 	d['title'] = document.getElementById('title').value
+ 	var usernameinput = $("<input>").attr("type", "hidden").attr("name", "username").val(getCookie('usernamethu'));
+ 	$('#applyform').append($(usernameinput))
+ 	var tokeninput = $("<input>").attr("type", "hidden").attr("name", "token").val(getCookie('tokenthu'));
+ 	$('#applyform').append($(tokeninput))
+ 	var useridinput = $("<input>").attr("type", "hidden").attr("name", "userid").val(getCookie('useridthu'));
+ 	$('#applyform').append($(useridinput))
+ 	var titleinput = $("<input>").attr("type", "hidden").attr("name", "title").val(getCookie(document.getElementById('title').value));
+ 	$('#applyform').append($(titleinput))
+ 	a = $('#applyform').submit()
+
 }

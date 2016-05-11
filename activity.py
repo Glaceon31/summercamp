@@ -29,6 +29,7 @@ def getapplylist():
 	jsondata = request.form
 	data = immutabledict2dict(jsondata)
 	result = {'success' :0}
+	print data
 	try:
 		tmp = userdb.find_one({'username': data['username']})
 		if tmp['token'] != data['token']:
@@ -92,10 +93,8 @@ def cancel():
 
 @app.route('/upload', methods=['POST'])
 def upload():
-	print request.files
 	jsondata = request.form
 	data = immutabledict2dict(jsondata)
-	print data
 	result = {'success' :0}
 	try:
 		a = 1
@@ -107,7 +106,6 @@ def upload():
 
 @app.route('/submit', methods=['GET', 'POST'])
 def submit():
-	print 'files:',request.files
 	jsondata = request.form
 	data = immutabledict2dict(jsondata)
 	result = {'success' :0}
@@ -127,11 +125,14 @@ def submit():
 			#save material
 			file = request.files['file']
 			if file and allowed_file(file.filename):
-				print file.filename
 				filename = secure_filename(file.filename)
-				print filename
-				#print os.path.join(data['title']+'/'+data['username']+'/'app.config['UPLOAD_FOLDER'], filename)
-				file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+				directory=os.path.join(app.config['UPLOAD_FOLDER'], data['title'], data['username'])
+				try:
+					os.makedirs(directory)
+				except:
+					a = 1
+				file.save(os.path.join(app.config['UPLOAD_FOLDER'], data['title'], data['username'],filename))
+				applydata['filename'] = filename
 			else:
 				result['message'] = u'上传文件失败，请检查文件类型是否满足要求'
 				return result['message']
@@ -139,26 +140,77 @@ def submit():
 			#save to db
 			applydata['username'] = data['username']
 			applydata['title'] = data['title']
-			#applydata['filename'] = data['filename']
 			applydata['status'] = u'等待处理'
 			apply_id = applydb.insert_one(applydata).inserted_id
 			result['success'] = 1
-			return u'申请成功！'
+			return u'申请成功！<br><a href="/mainpage">返回首页</a>'
 	except:
 		traceback.print_exc()
 		result['message'] = u'后台错误'
 		return result['message']
 	return result['message']
 
-@app.route('/getapplymaterial', methods=['GET', 'POST'])
-def getapplymaterial():
-	'''
+@app.route('/applymodifysubmit', methods=['GET', 'POST'])
+def applymodifysubmit():
 	jsondata = request.form
 	data = immutabledict2dict(jsondata)
 	result = {'success' :0}
-	'''
 	try:
-		directory='applications'
-		return send_from_directory(directory=directory,filename='zip')
+		applydata = {}
+		#validate the availability of user and activity
+		tmp = userdb.find_one({'username': data['username']})
+		if tmp['token'] != data['token']:
+			result['message'] = u'请先登录'
+			return result['message']
+		tmpap = applydb.find_one({'title': data['title'],'username':data['username']})
+		if not tmpap:
+			result['message'] = u'尚未申请'
+			return result['message']
+		tmpac = activitydb.find_one({'title': data['title']})
+		if activity_available(tmpac):
+			#save material
+			file = request.files['file']
+			if file and allowed_file(file.filename):
+				filename = secure_filename(file.filename)
+				directory=os.path.join(app.config['UPLOAD_FOLDER'], data['title'], data['username'])
+				try:
+					os.makedirs(directory)
+				except:
+					a = 1
+				file.save(os.path.join(app.config['UPLOAD_FOLDER'], data['title'], data['username'],filename))
+				applydata['filename'] = filename
+			else:
+				result['message'] = u'上传文件失败，请检查文件类型是否满足要求'
+				return result['message']
+
+			#save to db
+			applydata['username'] = data['username']
+			apply_id = applydb.update_one({'username': applydata['username']}, {'$set':{'filename' : applydata['filename']}})
+			result['success'] = 1
+			return u'修改成功！<br><a href="/mainpage">返回首页</a>'
 	except:
 		traceback.print_exc()
+		result['message'] = u'后台错误'
+		return result['message']
+	return result['message']
+
+@app.route('/getapplymaterial/<jsondata>', methods=['GET','POST'])
+def getapplymaterial(jsondata):
+	data = json.loads(jsondata)
+	result = {'success' :0}
+	try:
+		tmp = userdb.find_one({'username': data['username']})
+		if tmp['token'] != data['token']:
+			result['message'] = u'请先登录'
+			return json.dumps(result)
+		tmpap = applydb.find_one({'title': data['title'],'username':data['username']})
+		if not tmpap:
+			result['message'] = u'尚未申请'
+			return result['message']
+		directory=os.path.join('applications',data['title'],data['username'])
+		result['success'] = 1
+		return send_from_directory(directory=directory,filename=tmpap['filename'], as_attachment=True)
+	except:
+		traceback.print_exc()
+		result['message'] = u'后台错误'
+		return json.dumps(result)

@@ -26,7 +26,7 @@
    for (i in activitylist){
     activity = activitylist[i]
     document.getElementById('activitylist').style.display = ""
-    document.getElementById('activities').innerHTML += '<tr><td>'+activity['title']+'</td><td>'+activity['start']+'</td><td>'+activity['end']+'</td><td><a href="'+activity['newsdetail']+'">查看</a></td></tr>'
+    document.getElementById('activities').innerHTML += '<tr><td>'+activity['title']+'</td><td>'+activity['start']+'</td><td>'+activity['end']+'</td><td><a href="'+activity['newsdetail']+'">查看详情</a><br><a href="/apply">申请</a></td></tr>'
    }
   }
 
@@ -34,62 +34,95 @@
     applylist = getapplylist()
     for (i in applylist){
       apply = applylist[i]
-      document.getElementById('applies').innerHTML += '<tr><td>'+apply['title']+'</td><td>'+apply['end']+'</td><td>'+apply['status']+'</td><td><a href="#" onclick="getapplymaterial(\''+apply['title']+'\')">查看</a><br><a href="/applymodify">修改</a><br><a href="#" onclick="apply_cancel(\''+apply['title']+'\')">取消</a><br></td></tr>'
+      document.getElementById('applies').innerHTML += '<tr><td>'+apply['title']+'</td><td>'+apply['end']+'</td><td>'+apply['status']+'</td><td><a href="#" onclick="getapplymaterial(\''+apply['title']+'\')">下载申请材料</a><br><a href="/applymodify">修改申请材料</a><br><a href="#" onclick="apply_cancel(\''+apply['title']+'\')">取消申请</a><br></td></tr>'
     }
   }
   </script>
   <body onload="checklogin();showuserinfo();showrecentnews();showactivitylist();showapplylist()">
   	
-  	<div class="container" id="mainframe" style="display:none">
-      {% include 'topbanner.html' %}
-  		<div class="row">
-  			<div class="col-sm-3">
+    <nav class="navbar navbar-inverse visible-xs">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>                        
+      </button>
+      <a class="navbar-brand" href="#">清华大学计算机系夏令营</a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="#">首页</a></li>
+        <li><a href="/news">新闻通知</a></li>
+      </ul>
+    </div>
+  </div>
+  </nav>
+
+  	<div class="container-fluid">
+      <div class="row content">
+        <div class="col-sm-3 sidenav hidden-xs">
+        <h2>清华大学计算机系夏令营</h2>
+        <ul class="nav nav-pills nav-stacked">
+          <li class="active"><a href="#">首页</a></li>
+          <li><a href="/news">新闻通知</a></li>
+        </ul><br>
+        </div>
+        <br>
+        <!--
+  			<div class="col-sm-2">
   				<ul class="nav nav-pills nav-stacked">
    					<li class="active"><a href="#">首页</a></li>
    					<li><a href="/news">新闻通知</a></li>
    					<li><a href="/apply">申请</a></li>
 				</ul>
-  			</div>
-  			<div class="col-sm-6">
-  				<h3 class='title'>个人信息</h3>
-				<hr>
-  				{% include 'userinfo.html' %}
-  				<div class="pad"></div>
-          <h3 class='title'>已申请项目</h3>
-          <div class="applylist" id="applylist" display="none">
-            <table border="1" class="applies" id="applies">
-              <tr>
-                <td>项目名称</td>
-                <td>报名截止时间</td>
-                <td>状态</td>
-                <td>操作</td>
-              </tr>
-            </table>
-          </div>
-        <hr>
-        <div class="pad"></div>
-  				<h3 class='title'>项目列表</h3>
-  				<hr>
-          <div class="activitylist" id="activitylist" display="none">
-            <table border="1" class="activities" id="activities">
-              <tr>
-                <td>项目名称</td>
-                <td>报名开始时间</td>
-                <td>报名截止时间</td>
-                <td>详细信息</td>
-              </tr>
-            </table>
-          </div>
-          <div class="pad"></div>
-  			</div>
-  			<div class="col-sm-3">
-  				<h3 class='title'>最新消息</h3>
-				<hr>
-				<div class="newsglance" id="newsglance"></div>
-  			</div>
+  			</div>-->
+  			<div class="col-sm-9">
+          <div class="row">
+                <div class="col-sm-6">
+              <div class="well">
+        				<h3 class='title'>个人信息</h3>
+        				{% include 'userinfo.html' %}
+              </div>
+              <div class="well">
+                <h3 class='title'>已申请项目</h3>
+                <div class="applylist" id="applylist" display="none">
+                  <table class="table applies" id="applies">
+                    <tr>
+                      <td>项目名称</td>
+                      <td>报名截止时间</td>
+                      <td>状态</td>
+                      <td>操作</td>
+                    </tr>
+                  </table>
+                </div>
+              </div>
+              <div class="well">
+      				<h3 class='title'>项目列表</h3>
+              <div class="activitylist" id="activitylist" display="none">
+                <table class="table activities" id="activities">
+                  <tr>
+                    <td>项目名称</td>
+                    <td>报名开始时间</td>
+                    <td>报名截止时间</td>
+                    <td>操作</td>
+                  </tr>
+                </table>
+              </div>
+              </div>
+      			</div>
+
+      			<div class="col-sm-3">
+              <div class="well">
+      				<h3 class='title'>最新消息</h3>
+    				<hr>
+    				<div class="newsglance" id="newsglance"></div>
+      			</div>
+            </div>
+        </div>
   		</div>
-	  	{% include 'footer.html' %}
 	  </div>
+  </div>
   </body>
   
 </html>

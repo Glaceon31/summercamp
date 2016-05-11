@@ -25,40 +25,24 @@
 
   }*/
   </script>
-  <body onload="checklogin();getactivitylist();showapplylist();">
-  	
-  	<div class="container" id="mainframe" style="display:none">
-      {% include 'topbanner.html' %}
-  		<div class="row">
-  			<div class="col-sm-3">
-  				<ul class="nav nav-pills nav-stacked">
-   					<li><a href="/mainpage">首页</a></li>
-   					<li><a href="/news">新闻通知</a></li>
-   					<li class="active"><a href="#">申请</a></li>
-				</ul>
-  			</div>
-  			<div class="col-sm-8">
-  				<h3 class='title'>申请项目</h3>
-				<hr>
-        <form role="form" enctype=multipart/form-data id="applyform" name="applyform" action="/submit" method="POST">
-          <div class="formgroup">
+  <body class="loginregbody" onload="checklogin();getactivitylist();">
+    <div class="container">
+        <form role="form" class="form-info" enctype=multipart/form-data id="applyform" name="applyform" action="/submit" method="POST">
+          <h2 class="form-info-heading">申请项目</h2>
+            
             <label for="name">选择项目</label>
             <select class="form-control" id="activity" name="title">
             </select>
-          </div>
-          <div class="formgroup">
+
             <label for="name">提交材料</label>
             <input type="file" name="file"/>
             <p class="help-block">请提交zip格式文件</p>
-          </div>
-          <button type="button" onclick="apply_submit()">申请</button>
+
+          <button type="button" class="btn btn-lg btn-primary btn-block" onclick="apply_submit()">申请</button>
+          <a href='/mainpage'>返回</a>
 
         </form>
-        <div class="pad"></div>
-        </div>
   	</div>
-	  	{% include 'footer.html' %}
-	  </div>
   </body>
   
 </html>

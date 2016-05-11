@@ -63,7 +63,7 @@ function register(){
 			success:function checklogin_return(data){
  	  		result = JSON.parse(data)
  	  		if (result['success'] == 1){
- 	  			document.getElementById('mainframe').style.display = ''
+ 	  			//document.getElementById('mainframe').style.display = ''
  	  		}
  	  		else{
  	  			alert('请先登录')
