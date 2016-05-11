@@ -12,7 +12,7 @@
    newslist = JSON.parse(newslist)
    for (i in newslist){
     news = newslist[i]
-    document.getElementById('newsglance').innerHTML += '<nospan class="recentnewsdate">'+news['date']+'</nospan><br><a class="recentnews" href="news/'+news['newsdetail']+'">'+news['title'] +'</a><br><br>'
+    document.getElementById('newsglance').innerHTML += '<nospan class="recentnewsdate">'+news['date']+'</nospan><br><a class="recentnews" href="'+news['newsdetail']+'">'+news['title'] +'</a><br><br>'
    }
   }
 
