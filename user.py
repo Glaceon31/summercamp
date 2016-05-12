@@ -5,19 +5,58 @@ import traceback
 import json
 import random
 from tools import *
+import re
 
 userdb = db.user
 
-userinfolist = ['username', 'name', 'email', 'college', 'department'\
+userinfolist = ['username', 'name', 'email', 'college', 'department',\
                 'identity', 'mobile', 'address', 'postcode']
+
+def checkusername(username):
+    if re.match('^[0-9a-zA-Z_]+$',username):
+        return True
+    else:
+        return False
+
+def checkemail(email):
+    if re.match('^.+@.+$',email):
+        return True
+    else:
+        return False
+
+def checknumber(number):
+    if re.match('^[0-9]+$',number):
+        return True
+    else:
+        return False
 
 @app.route('/userregister', methods=['POST'])
 def userregister():
     jsondata = request.form
     data = immutabledict2dict(jsondata)
     result = {'success' :0}
+    print data
     if len(data['username']) < 3:
         result['message'] = u'用户名过短'
+        return json.dumps(result)
+    for i in userinfolist:
+        if data[i] == '':
+            result['message'] = u'请填写所有项'
+            return json.dumps(result)
+    if not checkusername(data['username']):
+        result['message'] = u'用户名只能包含字母、数字和下划线'
+        return json.dumps(result)
+    if not checkemail(data['email']):
+        result['message'] = u'邮箱格式不正确'
+        return json.dumps(result)
+    if not checknumber(data['mobile']):
+        result['message'] = u'手机号不正确'
+        return json.dumps(result)
+    if not checknumber(data['identity']):
+        result['message'] = u'身份证号不正确'
+        return json.dumps(result)
+    if not checknumber(data['postcode']):
+        result['message'] = u'邮编不正确'
         return json.dumps(result)
     #db
     try:
@@ -141,15 +180,25 @@ def getinfo(jsondata):
     return result
 
 @app.route('/usermodify', methods=['POST'])
-def modify(jsondata):
-    data = json.loads(jsondata)
+def usermodify():
+    jsondata = request.form
+    data = immutabledict2dict(jsondata)
     result = {'success': 0 }
+    if not checkemail(data['email']):
+        result['message'] = u'邮箱格式不正确'
+        return json.dumps(result)
+    if not checknumber(data['mobile']):
+        result['message'] = u'手机号不正确'
+        return json.dumps(result)
+    if not checknumber(data['postcode']):
+        result['message'] = u'邮编不正确'
+        return json.dumps(result)
     #db
     try:
         tmp = userdb.find_one({'username': data['username']})
     except:
         traceback.print_exc()
-        result['message'] = u'后台错误'
+        result['message'] = u'未知错误'
         return json.dumps(result)
     #
     if data['token'] != tmp['token']:
@@ -157,9 +206,7 @@ def modify(jsondata):
         return json.dumps(result)
     else:
         try:
-            if not savelog(data['username'], 'modify', data['token'], message=data['name']):
-                return u'后台错误'
-            userdb.update_one({'username': data['username']}, {'$set':{'name' : data['name']}})
+            userdb.update_one({'username': data['username']}, {'$set':{'email' : data['email'], 'postcode':data['postcode'],'mobile':data['mobile'],'address':data['address']}})
         except:
             traceback.print_exc()
             result['message'] = u'后台错误'
@@ -169,8 +216,9 @@ def modify(jsondata):
         return json.dumps(result)
 
 @app.route('/usermodifypassword', methods=['POST'])
-def modifypassword(jsondata):
-    data = json.loads(jsondata)
+def usermodifypassword():
+    jsondata = request.form
+    data = immutabledict2dict(jsondata)
     result = {'success':0}
     #db
     try:
@@ -183,18 +231,16 @@ def modifypassword(jsondata):
     if data['token'] != tmp['token']:
         result['message'] = u'登录已失效，请重新登录'
         return json.dumps(result)
-    elif data['oldpass'] != tmp['password']:
+    elif data['oldpassword'] != tmp['password']:
         result['message'] = u'原密码错误'
         return json.dumps(result)
     else:
         try:
-            if not savelog(data['username'], 'modifypassword', data['token']):
-                return u'后台错误'
-            userdb.update_one({'username': data['username']}, {'$set':{'password' : data['newpass']}})
+            userdb.update_one({'username': data['username']}, {'$set':{'password' : data['newpassword']}})
         except:
             traceback.print_exc()
             result['message'] = u'后台错误'
             return json.dumps(result)
         result['success'] = 1
-        result['message'] = u'修改成功'
+        result['message'] = u'修改密码成功'
         return json.dumps(result)

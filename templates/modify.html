@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  {% include 'header.html' %}
+  <script type="text/javascript">
+  function getinfo(){
+    d = {}
+      d['userid'] = getCookie('useridthu')
+      d['username'] = getCookie('usernamethu')
+      d['token'] = getCookie('tokenthu')
+      $.ajax({
+      type:"POST",
+      url:"/getuserinfo",
+      data: d,
+      success:function getinfo_return(data){
+        result = JSON.parse(data)
+        if (result['success'] == 1){
+          document.getElementById('mobile').value=result['mobile']
+          document.getElementById('email').value=result['email']
+          document.getElementById('address').value=result['address']
+          document.getElementById('postcode').value=result['postcode']
+        }
+        else{
+        }
+      }
+    })
+  }
+  </script>
+  <body class="loginregbody" onload="getinfo();">
+    <div class="container">
+      <form class="form-info" style="max-width: 400px">
+        <h2 class="form-info-heading">修改联系方式</h2>
+          <label for="username" class="sr-only" >用户名：</label>
+
+          <label for="email" class="sr-only" >邮箱：</label>
+          邮箱：<input class="form-control" id="email" type="text"> 
+          <label for="mobile" class="sr-only" >手机：</label>
+          手机：<input class="form-control" id="mobile" type="text"> 
+          <label for="address" class="sr-only" >地址：</label>
+          地址：<input class="form-control" id="address" type="text">
+          <label for="postcode" class="sr-only" >邮编：</label>
+          邮编：<input class="form-control" id="postcode" type="text" style="margin-bottom:10px"> 
+          <button type="button" class="btn btn-lg btn-primary btn-block" onclick="modify()">修改</button>
+          <a href="/mainpage">返回</a>
+      </form>
+    </div>
+  </body>
+  
+</html>

@@ -1,11 +1,16 @@
 function register(){
+		if (document.getElementById('passwd').value.length < 8){
+ 	  		alert('密码长度至少为8')
+ 	  		return
+ 	  	}
 		if (document.getElementById('passwd').value != document.getElementById('repasswd').value){
  	  		alert('两次密码不相同')
  	  		return
  	  	}
+ 	  	
 		d = {}
 		d['username'] = document.getElementById('username').value
-		d['password'] = document.getElementById('passwd').value
+		d['password'] = $.md5(document.getElementById('passwd').value)
 		d['name'] = document.getElementById('name').value
 		d['email'] = document.getElementById('email').value
 		d['college'] = document.getElementById('college').value
@@ -14,6 +19,7 @@ function register(){
 		d['mobile'] = document.getElementById('mobile').value
 		d['address'] = document.getElementById('address').value
 		d['postcode'] = document.getElementById('postcode').value
+		
 		$.ajax({
 			type:"POST",
 			url:"/userregister",
@@ -34,7 +40,7 @@ function register(){
  	  function login(){
  	  	d = {}
  	  	d['username'] = document.getElementById("username").value
- 	  	d['password'] = document.getElementById("passwd").value
+ 	  	d['password'] = $.md5(document.getElementById("passwd").value)
  	  	$.ajax({
 			type:"POST",
 			url:"/userlogin",
@@ -91,7 +97,7 @@ function register(){
  	  		if (result['success'] == 1){
  	  			document.getElementById('username').innerHTML=result['username']
  	  			document.getElementById('name').innerHTML=result['name']
- 	  			document.getElementById('email').innerHTML=result['email']
+ 	  			document.getElementById('identity').innerHTML=result['identity']
  	  			document.getElementById('college').innerHTML=result['college']
  	  			document.getElementById('department').innerHTML=result['department']
  	  		}
@@ -113,44 +119,64 @@ function register(){
  	  	window.location = '/'
  	  }
 
- 	  function modify(){
- 	  	d = {}
- 	  	d['username'] = getCookie('username')
- 	  	d['name'] = document.getElementById('namem').value
- 	  	d['token'] = getCookie('token')
- 	  	jsondata = JSON.stringify(d)
- 	  	$.post('/modify/'+jsondata,
- 	  		function modifyre(data){
- 	  			result = JSON.parse(data)
- 	  			document.getElementById('LayerModify').style.display = 'none'
- 	  			if (result['success'] == 1)
- 	  				setCookie('truename', document.getElementById('namem').value, 1)
+
+function modify(){
+		d = {}
+ 	  	d['userid'] = getCookie('useridthu')
+ 	  	d['username'] = getCookie('usernamethu')
+ 	  	d['token'] = getCookie('tokenthu')
+		d['email'] = document.getElementById('email').value
+		d['mobile'] = document.getElementById('mobile').value
+		d['address'] = document.getElementById('address').value
+		d['postcode'] = document.getElementById('postcode').value
+		
+		$.ajax({
+			type:"POST",
+			url:"/usermodify",
+			data: d,
+			success:function modify_return(data){
+ 	  		result = JSON.parse(data)
+ 	  		if (result['success'] == 1){
+ 	  			alert(result['message'])
+ 	  			window.location = '/mainpage'
+ 	  		}
+ 	  		else{
  	  			alert(result['message'])
  	  		}
- 	  	)
+ 	  	}
+		})
  	  }
 
- 	  function modifypassword(){
- 	  	if (document.getElementById('newpass').value != document.getElementById('renewpass').value){
+function modifypassword(){
+		if (document.getElementById('newpasswd').value.length < 8){
+ 	  		alert('密码长度至少为8')
+ 	  		return
+ 	  	}
+		if (document.getElementById('newpasswd').value != document.getElementById('repasswd').value){
  	  		alert('两次密码不相同')
  	  		return
  	  	}
- 	  	d = {}
- 	  	d['username'] = getCookie('username')
- 	  	d['oldpass'] = $.md5(document.getElementById('oldpass').value)
- 	  	d['newpass'] = $.md5(document.getElementById('newpass').value)
- 	  	d['token'] = getCookie('token')
- 	  	jsondata = JSON.stringify(d)
- 	  	$.post('/modifypassword/'+jsondata,
- 	  		function modifyre(data){
- 	  			result = JSON.parse(data)
- 	  			if (result['success'] == 1){
- 	  				document.getElementById('oldpass').value = ''
- 	  				document.getElementById('newpass').value = ''
- 	  				document.getElementById('renewpass').value = ''
- 	  				document.getElementById('LayerModifypassword').style.display = 'none'
- 	  			}
+ 	  	
+		d = {}
+ 	  	d['userid'] = getCookie('useridthu')
+ 	  	d['username'] = getCookie('usernamethu')
+ 	  	d['token'] = getCookie('tokenthu')
+		d['oldpassword'] = $.md5(document.getElementById('oldpasswd').value)
+		d['newpassword'] = $.md5(document.getElementById('newpasswd').value)
+		
+		$.ajax({
+			type:"POST",
+			url:"/usermodifypassword",
+			data: d,
+			success:function modifypassword_return(data){
+ 	  		result = JSON.parse(data)
+ 	  		if (result['success'] == 1){
+ 	  			alert(result['message'])
+ 	  			window.location = '/mainpage'
+ 	  		}
+ 	  		else{
  	  			alert(result['message'])
  	  		}
- 	  	)
+ 	  	}
+		})
  	  }

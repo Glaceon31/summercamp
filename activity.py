@@ -13,7 +13,7 @@ applydb = db.apply
 userdb = db.user
 
 UPLOAD_FOLDER='applications'
-ALLOWED_EXTENSIONS = set(['zip'])
+ALLOWED_EXTENSIONS = set(['zip', 'rar'])
 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
@@ -88,6 +88,7 @@ def cancel():
 		traceback.print_exc()
 		result['message'] = u'后台错误'
 		return json.dumps(result)
+	os.remove(os.path.join(app.config['UPLOAD_FOLDER'], tmpap['title'], tmpap['username'],tmpap['filename']))
 	result['success'] = 1
 	return json.dumps(result)
 
@@ -126,6 +127,10 @@ def submit():
 			file = request.files['file']
 			if file and allowed_file(file.filename):
 				filename = secure_filename(file.filename)
+				print filename, file.filename
+				if filename != file.filename:
+					result['message'] = u'文件名不符合要求'
+					return result['message']
 				directory=os.path.join(app.config['UPLOAD_FOLDER'], data['title'], data['username'])
 				try:
 					os.makedirs(directory)
@@ -142,6 +147,7 @@ def submit():
 			applydata['title'] = data['title']
 			applydata['status'] = u'等待处理'
 			apply_id = applydb.insert_one(applydata).inserted_id
+
 			result['success'] = 1
 			return u'申请成功！<br><a href="/mainpage">返回首页</a>'
 	except:
@@ -172,6 +178,10 @@ def applymodifysubmit():
 			file = request.files['file']
 			if file and allowed_file(file.filename):
 				filename = secure_filename(file.filename)
+				print filename, file.filename
+				if filename != file.filename:
+					result['message'] = u'文件名不符合要求'
+					return result['message']
 				directory=os.path.join(app.config['UPLOAD_FOLDER'], data['title'], data['username'])
 				try:
 					os.makedirs(directory)
@@ -186,6 +196,7 @@ def applymodifysubmit():
 			#save to db
 			applydata['username'] = data['username']
 			apply_id = applydb.update_one({'username': applydata['username']}, {'$set':{'filename' : applydata['filename']}})
+			os.remove(os.path.join(app.config['UPLOAD_FOLDER'], data['title'], data['username'],tmpap['filename']))
 			result['success'] = 1
 			return u'修改成功！<br><a href="/mainpage">返回首页</a>'
 	except:

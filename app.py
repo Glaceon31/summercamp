@@ -66,6 +66,14 @@ def newspage(page):
 def account():
 	return render_template('account.html')
 
+@app.route('/modify')
+def modify():
+	return render_template('modify.html')
+
+@app.route('/modifypassword')
+def modifypassword():
+	return render_template('modifypassword.html')
+
 @app.route('/fonts/<path>')
 def fonts(path):
 	return redirect('/static/fonts/'+path)

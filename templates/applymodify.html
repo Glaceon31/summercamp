@@ -7,7 +7,7 @@
     applylist = getapplylist()
     for (i in applylist){
       apply = applylist[i]
-      $('#title').append(new Option(apply['title'], apply['title']))
+      $('#title').append(new Option(apply['title'], '清华大学计算机系2016年全国优秀大学生夏令营'))
     }
 
   }
@@ -23,9 +23,10 @@
 
             <label for="name">提交材料</label>
             <input type="file" name="file"/>
-            <p class="help-block">请提交zip格式文件</p>
+            <p class="help-block">请提交zip、rar格式文件，文件名由英文字母、数字和下划线组成</p>
 
           <button type="button" onclick="applymodify_submit()">修改</button>
+          <a href='/mainpage'>返回</a>
         </form>
     </div>
   </body>

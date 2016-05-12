@@ -12,10 +12,10 @@
    newslist = JSON.parse(newslist)
    for (i in newslist){
     news = newslist[i]
-    document.getElementById('newsglance').innerHTML += '<nospan class="recentnewsdate">'+news['date']+'</nospan><br><a class="recentnews" href="'+news['newsdetail']+'">'+news['title'] +'</a><br><br>'
+    document.getElementById('newsglance').innerHTML += '<tr><td>'+news['title']+'</td><td>'+news['date']+'</td><td><a href="'+news['newsdetail']+'">查看详情</a></td></tr>'
    }
   }
-
+  /*
   function showactivitylist() {
     regS = new RegExp("&#34;", "g")
    regS2 = new RegExp("&#39;", "g")
@@ -28,17 +28,19 @@
     document.getElementById('activitylist').style.display = ""
     document.getElementById('activities').innerHTML += '<tr><td>'+activity['title']+'</td><td>'+activity['start']+'</td><td>'+activity['end']+'</td><td><a href="'+activity['newsdetail']+'">查看详情</a><br><a href="/apply">申请</a></td></tr>'
    }
-  }
+  }*/
 
   function showapplylist(){
     applylist = getapplylist()
     for (i in applylist){
       apply = applylist[i]
-      document.getElementById('applies').innerHTML += '<tr><td>'+apply['title']+'</td><td>'+apply['end']+'</td><td>'+apply['status']+'</td><td><a href="#" onclick="getapplymaterial(\''+apply['title']+'\')">下载申请材料</a><br><a href="/applymodify">修改申请材料</a><br><a href="#" onclick="apply_cancel(\''+apply['title']+'\')">取消申请</a><br></td></tr>'
+      document.getElementById('status').innerHTML = '<font style="color:green">已申请</p>'
+      document.getElementById('applies').innerHTML = '<a href="#" onclick="getapplymaterial(\''+apply['title']+'\')">下载已提交材料</a><br><a href="/applymodify">修改申请材料</a><br><a href="#" onclick="apply_cancel(\''+apply['title']+'\')">取消申请</a><br>'
     }
   }
+
   </script>
-  <body onload="checklogin();showuserinfo();showrecentnews();showactivitylist();showapplylist()">
+  <body onload="checklogin();showuserinfo();showrecentnews();showapplylist()">
   	
     <nav class="navbar navbar-inverse visible-xs">
   <div class="container-fluid">
@@ -65,7 +67,6 @@
         <h2>清华大学计算机系夏令营</h2>
         <ul class="nav nav-pills nav-stacked">
           <li class="active"><a href="#">首页</a></li>
-          <li><a href="/news">新闻通知</a></li>
         </ul><br>
         </div>
         <br>
@@ -79,45 +80,68 @@
   			</div>-->
   			<div class="col-sm-9">
           <div class="row">
-                <div class="col-sm-6">
+                <div class="col-sm-8">
               <div class="well">
         				<h3 class='title'>个人信息</h3>
-        				{% include 'userinfo.html' %}
+        				
+            <table class="table userinfo">
+              <tr>
+                <td class="userinfolabel">用户名：</td>
+                <td class="userinfovalue" id="username"></td>
+
+              </tr>
+              <tr>
+                <td class="userinfolabel">姓名：</td>
+                <td class="userinfovalue" id="name"></td>
+              </tr>
+              <tr>
+                <td class="userinfolabel">学校：</td>
+                <td class="userinfovalue" id="college"></td>
+              </tr>
+              <tr>
+                <td class="userinfolabel">院系：</td>
+                <td class="userinfovalue" id="department"></td>
+              </tr>
+              <tr>
+                <td class="userinfolabel">身份证：</td>
+                <td class="userinfovalue" id="identity"></td>
+              </tr>
+
+            </table>
+
+<td class="userinfolabel"><a href='#' onclick="logout()">登出</a>   <a href='/modify'>查看/修改联系方式</a>   <a href='/modifypassword'>修改密码</a></td>
               </div>
               <div class="well">
-                <h3 class='title'>已申请项目</h3>
+                <h3 class='title'>报名申请</h3>
                 <div class="applylist" id="applylist" display="none">
-                  <table class="table applies" id="applies">
+                  <table class="table applies">
                     <tr>
-                      <td>项目名称</td>
                       <td>报名截止时间</td>
                       <td>状态</td>
                       <td>操作</td>
+                    </tr>
+                    <tr>
+                      <td>2016-x-x</td>
+                      <td id="status"><font style="color:red">未申请</font></td>
+                      <td id="applies"><a href="/apply">申请</a></td>
                     </tr>
                   </table>
                 </div>
               </div>
               <div class="well">
-      				<h3 class='title'>项目列表</h3>
-              <div class="activitylist" id="activitylist" display="none">
-                <table class="table activities" id="activities">
-                  <tr>
-                    <td>项目名称</td>
-                    <td>报名开始时间</td>
-                    <td>报名截止时间</td>
-                    <td>操作</td>
-                  </tr>
-                </table>
-              </div>
-              </div>
-      			</div>
-
-      			<div class="col-sm-3">
-              <div class="well">
-      				<h3 class='title'>最新消息</h3>
+      				<h3 class='title'>通知列表</h3>
     				<hr>
-    				<div class="newsglance" id="newsglance"></div>
+    				<table class="table applies" id='newsglance'>
+                    <tr>
+                      <td>标题</td>
+                      <td>时间</td>
+                      <td>操作</td>
+                    </tr>
+                  </table>
       			</div>
+            </div>
+            <div class="col-sm-4">
+              此处应有图片
             </div>
         </div>
   		</div>
