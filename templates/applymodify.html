@@ -2,22 +2,13 @@
 <html>
 
   {% include 'header.html' %}
-  <script type="text/javascript">
-  function showapplylist() {
-    applylist = getapplylist()
-    for (i in applylist){
-      apply = applylist[i]
-      $('#title').append(new Option(apply['title'], '清华大学计算机系2016年全国优秀大学生夏令营'))
-    }
-
-  }
-  </script>
-  <body class="loginregbody" onload="checklogin();showapplylist();">
+  <body class="loginregbody" onload="checklogin();">
     <div class="container">
         <form role="form" class="form-info" enctype=multipart/form-data id="applyform" name="applyform" action="/applymodifysubmit" method="POST">
 
             <label for="name">选择项目</label>
             <select class="form-control" id="title" name="title">
+              <option>清华大学计算机系2016年全国优秀大学生夏令营</option>
             </select>
 
 

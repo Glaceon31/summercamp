@@ -28,7 +28,7 @@
     document.getElementById('activitylist').style.display = ""
     document.getElementById('activities').innerHTML += '<tr><td>'+activity['title']+'</td><td>'+activity['start']+'</td><td>'+activity['end']+'</td><td><a href="'+activity['newsdetail']+'">查看详情</a><br><a href="/apply">申请</a></td></tr>'
    }
-  }*/
+  }
 
   function showapplylist(){
     applylist = getapplylist()
@@ -37,10 +37,10 @@
       document.getElementById('status').innerHTML = '<font style="color:green">已申请</p>'
       document.getElementById('applies').innerHTML = '<a href="#" onclick="getapplymaterial(\''+apply['title']+'\')">下载已提交材料</a><br><a href="/applymodify">修改申请材料</a><br><a href="#" onclick="apply_cancel(\''+apply['title']+'\')">取消申请</a><br>'
     }
-  }
+  }*/
 
   </script>
-  <body onload="checklogin();showuserinfo();showrecentnews();showapplylist()">
+  <body onload="checklogin();showuserinfo();showrecentnews();">
   	
     <nav class="navbar navbar-inverse visible-xs">
   <div class="container-fluid">
@@ -116,12 +116,14 @@
                 <div class="applylist" id="applylist" display="none">
                   <table class="table applies">
                     <tr>
-                      <td>报名截止时间</td>
+                      <td>申请时间</td>
+                      <td>修改时间</td>
                       <td>状态</td>
                       <td>操作</td>
                     </tr>
                     <tr>
-                      <td>2016-x-x</td>
+                      <td id="applydate">无</td>
+                      <td id="lastmodify">无</td>
                       <td id="status"><font style="color:red">未申请</font></td>
                       <td id="applies"><a href="/apply">申请</a></td>
                     </tr>

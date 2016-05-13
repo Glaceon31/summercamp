@@ -7,13 +7,14 @@ import random
 from tools import *
 import os
 from werkzeug import secure_filename
+import datetime
 
 activitydb = db.activity
 applydb = db.apply
 userdb = db.user
 
 UPLOAD_FOLDER='applications'
-ALLOWED_EXTENSIONS = set(['zip', 'rar'])
+ALLOWED_EXTENSIONS = set(['zip', 'rar', 'gz'])
 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
@@ -23,7 +24,7 @@ def allowed_file(filename):
 
 def activity_available(activity):
 	return True
-
+'''
 @app.route('/getapplylist', methods=['POST'])
 def getapplylist():
 	jsondata = request.form
@@ -70,7 +71,7 @@ def getactivity():
 	except:
 		traceback.print_exc()
 		return []
-
+'''
 @app.route('/cancel', methods=['POST'])
 def cancel():
 	jsondata = request.form
@@ -81,14 +82,20 @@ def cancel():
 		if tmp['token'] != data['token']:
 			result['message'] = u'请先登录'
 			return json.dumps(result)
-		tmpap = applydb.find_one({'title': data['title'],'username':data['username']})
-		if tmpap:
-			applydb.remove({'title': data['title'],'username':data['username']})
+		if tmp['applied']:
+			userdb.update({'username': data['username']},{'$set':{
+				'applied' : False,
+				'applydate' : '',
+				'lastmodify' : '',
+				'filename' : ''
+				}})
+		else:
+			result['message'] = u'尚未申请'
+			return json.dumps(result)
 	except:
 		traceback.print_exc()
 		result['message'] = u'后台错误'
 		return json.dumps(result)
-	os.remove(os.path.join(app.config['UPLOAD_FOLDER'], tmpap['title'], tmpap['username'],tmpap['filename']))
 	result['success'] = 1
 	return json.dumps(result)
 
@@ -117,36 +124,54 @@ def submit():
 		if tmp['token'] != data['token']:
 			result['message'] = u'请先登录'
 			return result['message']
+		if tmp.has_key('applied'):
+			if tmp['applied']:
+				result['message'] = u'已经申请过了<br><a href="/mainpage">返回首页</a>'
+				return result['message']
+		'''
 		tmpap = applydb.find_one({'title': data['title'],'username':data['username']})
 		if tmpap:
 			result['message'] = u'已经申请过了'
+
 			return result['message']
 		tmpac = activitydb.find_one({'title': data['title']})
-		if activity_available(tmpac):
+		'''
+		if True:#activity_available(tmpac):
 			#save material
 			file = request.files['file']
 			if file and allowed_file(file.filename):
+				'''
 				filename = secure_filename(file.filename)
 				print filename, file.filename
 				if filename != file.filename:
 					result['message'] = u'文件名不符合要求'
 					return result['message']
-				directory=os.path.join(app.config['UPLOAD_FOLDER'], data['title'], data['username'])
+				'''
+				filename = tmp['identity']+os.path.splitext(file.filename)[1]
+				directory=os.path.join(app.config['UPLOAD_FOLDER'], data['username'])
 				try:
 					os.makedirs(directory)
 				except:
 					a = 1
-				file.save(os.path.join(app.config['UPLOAD_FOLDER'], data['title'], data['username'],filename))
+				file.save(os.path.join(app.config['UPLOAD_FOLDER'], data['username'],filename))
 				applydata['filename'] = filename
 			else:
 				result['message'] = u'上传文件失败，请检查文件类型是否满足要求'
 				return result['message']
 
 			#save to db
+			'''
 			applydata['username'] = data['username']
 			applydata['title'] = data['title']
 			applydata['status'] = u'等待处理'
 			apply_id = applydb.insert_one(applydata).inserted_id
+			'''
+			userdb.update({'username': data['username']},{'$set':{
+				'applied' : True,
+				'applydate' : datetime.datetime.utcnow(),
+				'lastmodify' : datetime.datetime.utcnow(),
+				'filename' : filename 
+				}})
 
 			result['success'] = 1
 			return u'申请成功！<br><a href="/mainpage">返回首页</a>'
@@ -168,20 +193,22 @@ def applymodifysubmit():
 		if tmp['token'] != data['token']:
 			result['message'] = u'请先登录'
 			return result['message']
-		tmpap = applydb.find_one({'title': data['title'],'username':data['username']})
-		if not tmpap:
+		if not tmp['applied']:
 			result['message'] = u'尚未申请'
 			return result['message']
-		tmpac = activitydb.find_one({'title': data['title']})
-		if activity_available(tmpac):
+		#tmpac = activitydb.find_one({'title': data['title']})
+		if True:#activity_available(tmpac):
 			#save material
 			file = request.files['file']
 			if file and allowed_file(file.filename):
+				'''
 				filename = secure_filename(file.filename)
 				print filename, file.filename
 				if filename != file.filename:
 					result['message'] = u'文件名不符合要求'
 					return result['message']
+				'''
+				filename = tmp['identity']+os.path.splitext(file.filename)[1]
 				directory=os.path.join(app.config['UPLOAD_FOLDER'], data['title'], data['username'])
 				try:
 					os.makedirs(directory)
@@ -194,9 +221,17 @@ def applymodifysubmit():
 				return result['message']
 
 			#save to db
+			'''
 			applydata['username'] = data['username']
 			apply_id = applydb.update_one({'username': applydata['username']}, {'$set':{'filename' : applydata['filename']}})
 			os.remove(os.path.join(app.config['UPLOAD_FOLDER'], data['title'], data['username'],tmpap['filename']))
+			'''
+			os.remove(os.path.join(app.config['UPLOAD_FOLDER'], data['username'],tmp['filename']))
+			userdb.update({'username': data['username']},{'$set':{
+				'lastmodify' : datetime.datetime.utcnow(),
+				'filename' : filename 
+				}})
+
 			result['success'] = 1
 			return u'修改成功！<br><a href="/mainpage">返回首页</a>'
 	except:
@@ -214,13 +249,12 @@ def getapplymaterial(jsondata):
 		if tmp['token'] != data['token']:
 			result['message'] = u'请先登录'
 			return json.dumps(result)
-		tmpap = applydb.find_one({'title': data['title'],'username':data['username']})
-		if not tmpap:
+		if not tmp['applied']:
 			result['message'] = u'尚未申请'
 			return result['message']
-		directory=os.path.join('applications',data['title'],data['username'])
+		directory=os.path.join('applications',data['username'])
 		result['success'] = 1
-		return send_from_directory(directory=directory,filename=tmpap['filename'], as_attachment=True)
+		return send_from_directory(directory=directory,filename=tmp['filename'], as_attachment=True)
 	except:
 		traceback.print_exc()
 		result['message'] = u'后台错误'

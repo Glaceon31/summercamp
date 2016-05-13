@@ -56,12 +56,11 @@ function apply_submit(){
 	})*/
 }
 
-function apply_cancel(title){
+function apply_cancel(){
 	d = {}
  	d['userid'] = getCookie('useridthu')
  	d['username'] = getCookie('usernamethu')
  	d['token'] = getCookie('tokenthu')
- 	d['title'] = title
  	$.ajax({
 			type:"POST",
 			url:"/cancel",
@@ -79,9 +78,8 @@ function apply_cancel(title){
 	})
 }
 
-function getapplymaterial(title){
+function getapplymaterial(){
 	d = {}
-	d['title'] = title
  	d['userid'] = getCookie('useridthu')
  	d['username'] = getCookie('usernamethu')
  	d['token'] = getCookie('tokenthu')

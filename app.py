@@ -29,24 +29,15 @@ def login():
 @app.route('/mainpage')
 def mainpage():
 	newslist = getnews(0,3)
-	activitylist = getactivity()
-	return render_template('mainpage.html', newslist = newslist, activitylist = activitylist)
+	return render_template('mainpage.html', newslist = newslist)
 
 @app.route('/apply')
 def apply():
-	activitylist = getactivity()
-	return render_template('apply.html', activitylist = activitylist)
+	return render_template('apply.html')
 
 @app.route('/applymodify')
 def applymodify():
 	return render_template('applymodify.html')
-
-@app.route('/activity')
-def activity():
-	#appliedlist = get
-	activitylist = getactivity()
-	print activitylist
-	return render_template('activity.html', activitylist = activitylist)
 
 @app.route('/newsdetail/<newsname>')
 def newsdetail(newsname):

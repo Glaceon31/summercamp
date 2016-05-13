@@ -3,6 +3,7 @@ from flask import request
 from app import app, db
 import traceback
 import json
+import datetime
 import random
 from tools import *
 import re
@@ -11,6 +12,7 @@ userdb = db.user
 
 userinfolist = ['username', 'name', 'email', 'college', 'department',\
                 'identity', 'mobile', 'address', 'postcode']
+userinfolist_time = ['applydate','lastmodify']
 
 def checkusername(username):
     if re.match('^[0-9a-zA-Z_]+$',username):
@@ -24,8 +26,20 @@ def checkemail(email):
     else:
         return False
 
+def checkmobile(mobile):
+    if re.match('^[0-9]+$',mobile) and len(mobile) == 11:
+        return True
+    else:
+        return False
+
 def checknumber(number):
     if re.match('^[0-9]+$',number):
+        return True
+    else:
+        return False
+
+def checkidentity(identity):
+    if re.match('^[0-9X]+$',identity) and (len(identity) == 15 or len(identity) == 18):
         return True
     else:
         return False
@@ -49,10 +63,10 @@ def userregister():
     if not checkemail(data['email']):
         result['message'] = u'邮箱格式不正确'
         return json.dumps(result)
-    if not checknumber(data['mobile']):
+    if not checkmobile(data['mobile']):
         result['message'] = u'手机号不正确'
         return json.dumps(result)
-    if not checknumber(data['identity']):
+    if not checkidentity(data['identity']):
         result['message'] = u'身份证号不正确'
         return json.dumps(result)
     if not checknumber(data['postcode']):
@@ -65,7 +79,15 @@ def userregister():
         if tmp:
             result['message'] = u'用户名已存在'
             return json.dumps(result)
+        tmp = userdb.find_one({"identity": data["identity"]})
+        if tmp:
+            result['message'] = u'该身份证号已注册'
+            return json.dumps(result)
         else:
+            data['register_date'] = datetime.datetime.utcnow()
+            data['applied'] = False
+            data['applydate'] = ''
+            data['lastmodify'] = ''
             '''
             if not savelog(data['username'], 'register', ''):
                 result['message'] = u'后台错误'
@@ -142,6 +164,16 @@ def getuserinfo():
             if not tmp.has_key(i):
                 tmp[i] = ''
             result[i] = tmp[i]
+        for i in userinfolist_time:
+            if not tmp.has_key(i):
+                tmp[i] = ''
+            if isinstance(tmp[i],datetime.datetime):
+                tmp[i] += datetime.timedelta(hours=8) 
+            result[i] = str(tmp[i])[0:19]
+        if not tmp.has_key('applied'):
+            tmp['applied'] = False
+        result['applied'] = tmp['applied']
+
         result['success'] = 1
         return json.dumps(result)
     except:
@@ -187,7 +219,7 @@ def usermodify():
     if not checkemail(data['email']):
         result['message'] = u'邮箱格式不正确'
         return json.dumps(result)
-    if not checknumber(data['mobile']):
+    if not checkmobile(data['mobile']):
         result['message'] = u'手机号不正确'
         return json.dumps(result)
     if not checknumber(data['postcode']):

@@ -2,29 +2,6 @@
 <html>
 
   {% include 'header.html' %}
-  <script type="text/javascript">
-  function getactivitylist() {
-    regS = new RegExp("&#34;", "g")
-   regS2 = new RegExp("&#39;", "g")
-   regSand = new RegExp("&amp;", "g")
-   regSu = new RegExp('u"', "g")
-   activitylist = "{{activitylist}}".replace(regS,'"').replace(regS2, '"').replace(regSand, '&').replace(regSu,'"')
-   activitylist = JSON.parse(activitylist)
-   for (i in activitylist){
-    activity = activitylist[i]
-    $("#activity").append(new Option(activity['title']),activity['title'])
-   }
-  }
-/*
-  function showapplylist() {
-    applylist = getapplylist()
-    for (i in applylist){
-      apply = applylist[i]
-      $('#applies').append(new Option(apply['title'], apply['title']))
-    }
-
-  }*/
-  </script>
   <body class="loginregbody" onload="checklogin();getactivitylist();">
     <div class="container">
         <form role="form" class="form-info" enctype=multipart/form-data id="applyform" name="applyform" action="/submit" method="POST">
@@ -32,6 +9,7 @@
             
             <label for="name">选择项目</label>
             <select class="form-control" id="activity" name="title">
+              <option>清华大学计算机系2016年全国优秀大学生夏令营</option>
             </select>
 
             <label for="name">提交材料</label>
