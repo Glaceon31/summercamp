@@ -73,7 +73,7 @@ function register(){
 			success:function checklogin_return(data){
  	  		result = JSON.parse(data)
  	  		if (result['success'] == 1){
- 	  			//document.getElementById('mainframe').style.display = ''
+ 	  			//document.getElementById('information').style.display = ''
  	  		}
  	  		else{
  	  			alert('请先登录')
@@ -106,6 +106,7 @@ function register(){
       				document.getElementById('applydate').innerHTML=result['applydate']
       				document.getElementById('lastmodify').innerHTML=result['lastmodify']
       			}
+      			document.getElementById('information').style.display = ''
  	  		}
  	  		else{
  	  		}
