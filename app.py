@@ -61,6 +61,10 @@ def account():
 def modify():
 	return render_template('modify.html')
 
+@app.route('/getusername')
+def getusername():
+	return render_template('getusername.html')
+
 @app.route('/modifypassword')
 def modifypassword():
 	return render_template('modifypassword.html')

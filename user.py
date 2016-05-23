@@ -150,6 +150,25 @@ def userchecklogin():
     #
     return '1'
 
+@app.route('/usergetusername', methods=['POST'])
+def usergetusername():
+    jsondata = request.form
+    data = immutabledict2dict(jsondata)
+    result = {'success': 0}
+    try:
+        tmp = userdb.find_one({'identity': data['identity']})
+        if not tmp:
+            result['message'] = u'用户不存在'
+            return json.dumps(result)
+        else:
+            result['message'] = u'用户名: '+tmp['username']
+            result['success'] = 1
+            return json.dumps(result)
+    except:
+        traceback.print_exc()
+        result['message'] = u'后台错误'
+        return json.dumps(result)
+
 @app.route('/getuserinfo', methods=['POST'])
 def getuserinfo():
     jsondata = request.form
