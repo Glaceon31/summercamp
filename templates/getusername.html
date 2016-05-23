@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+  {% include 'header.html' %}
+  <script type="text/javascript">
+    function getusername(){
+      d = {}
+      d['identity'] = document.getElementById('identity').value
+      $.ajax({
+      type:"POST",
+      url:"/usergetusername",
+      data: d,
+      success:function getusername_return(data){
+        result = JSON.parse(data)
+        if (result['success'] == 1){
+          alert(result['message'])
+        }
+        else{
+          alert(result['message'])
+        }
+      }
+      })
+    }
+  </script>
+  <body class="loginregbody">
+    <div class="container">
+      <form class="form-info">
+        <h2 class="form-info-heading">请提供有效信息</h2>
+          <label for="identity" class="sr-only" >身份证：</label>
+          <input class="form-control" id="identity" type="text" placeholder="身份证" style="margin-bottom:10px"> 
+          <button type="button" class="btn btn-lg btn-primary btn-block" onclick="getusername()">找回用户名</button>
+          <a href="/login">返回</a>
+      </form>
+    </div>
+  </body>
+  
+</html>
