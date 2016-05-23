@@ -31,6 +31,7 @@ def getviewdata():
 		user['college'] = i['college']
 		user['identity'] = i['identity']
 		user['email'] = i['email']
+		user['mobile'] = i['mobile']
 		user['department'] = i['department']
 		result.append(user)
 	return json.dumps(result)
