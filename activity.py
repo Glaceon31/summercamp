@@ -209,12 +209,12 @@ def applymodifysubmit():
 					return result['message']
 				'''
 				filename = tmp['identity']+os.path.splitext(file.filename)[1]
-				directory=os.path.join(app.config['UPLOAD_FOLDER'], data['title'], data['username'])
+				directory=os.path.join(app.config['UPLOAD_FOLDER'], data['username'])
 				try:
 					os.makedirs(directory)
 				except:
 					a = 1
-				file.save(os.path.join(app.config['UPLOAD_FOLDER'], data['title'], data['username'],filename))
+				file.save(os.path.join(app.config['UPLOAD_FOLDER'], data['username'],filename))
 				applydata['filename'] = filename
 			else:
 				result['message'] = u'上传文件失败，请检查文件类型是否满足要求'

@@ -33,6 +33,7 @@ def getviewdata():
 		user['email'] = i['email']
 		user['mobile'] = i['mobile']
 		user['department'] = i['department']
+		user['lastmodify'] = str(i['lastmodify']+datetime.timedelta(hours=8))[0:19]
 		result.append(user)
 	return json.dumps(result)
 
