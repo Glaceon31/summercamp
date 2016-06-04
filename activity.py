@@ -226,7 +226,7 @@ def applymodifysubmit():
 			apply_id = applydb.update_one({'username': applydata['username']}, {'$set':{'filename' : applydata['filename']}})
 			os.remove(os.path.join(app.config['UPLOAD_FOLDER'], data['title'], data['username'],tmpap['filename']))
 			'''
-			os.remove(os.path.join(app.config['UPLOAD_FOLDER'], data['username'],tmp['filename']))
+			#os.remove(os.path.join(app.config['UPLOAD_FOLDER'], data['username'],tmp['filename']))
 			userdb.update({'username': data['username']},{'$set':{
 				'lastmodify' : datetime.datetime.utcnow(),
 				'filename' : filename 
