@@ -102,7 +102,7 @@ function register(){
  	  			document.getElementById('department').innerHTML=result['department']
  	  			if (result['applied']){
  	  				document.getElementById('status').innerHTML = '<font style="color:green">已申请</p>'
-      				document.getElementById('applies').innerHTML = '<a href="#" onclick="getapplymaterial()">下载已提交材料</a><br><a href="/applymodify">修改申请材料</a><br><a href="#" onclick="apply_cancel()">取消申请</a><br>'
+      				//document.getElementById('applies').innerHTML = '<a href="#" onclick="getapplymaterial()">下载已提交材料</a><br><a href="/applymodify">修改申请材料</a><br><a href="#" onclick="apply_cancel()">取消申请</a><br>'
       				document.getElementById('applydate').innerHTML=result['applydate']
       				document.getElementById('lastmodify').innerHTML=result['lastmodify']
       			}
