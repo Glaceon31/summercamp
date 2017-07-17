@@ -1,2 +1,25 @@
-报名已截止<br>
-<a href='/mainpage'>返回</a>
+<!DOCTYPE html>
+<html>
+
+  {% include 'header.html' %}
+  <body class="loginregbody" onload="checklogin();getactivitylist();">
+    <div class="container">
+        <form role="form" class="form-info" enctype=multipart/form-data id="applyform" name="applyform" action="/submit" method="POST">
+          <h2 class="form-info-heading">申请项目</h2>
+            
+            <label for="name">选择项目</label>
+            <select class="form-control" id="activity" name="title">
+              <option>清华大学计算机系2017年全国优秀大学生夏令营</option>
+            </select>
+
+            <label for="name">提交材料</label>
+            <input type="file" name="file"/>
+            <p class="help-block">请提交zip、rar格式文件，文件名由英文字母、数字和下划线组成</p>
+
+          <button type="button" class="btn btn-lg btn-primary btn-block" onclick="apply_submit()">申请</button>
+          <a href='/mainpage'>返回</a>
+
+        </form>
+  	</div>
+  </body>
+</html>  

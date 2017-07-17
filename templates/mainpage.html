@@ -15,7 +15,7 @@
     document.getElementById('newsglance').innerHTML += '<tr><td>'+news['title']+'</td><td>'+news['date']+'</td><td><a href="'+news['newsdetail']+'">查看详情</a></td></tr>'
    }
   }
-  /*
+  
   function showactivitylist() {
     regS = new RegExp("&#34;", "g")
    regS2 = new RegExp("&#39;", "g")
@@ -26,7 +26,7 @@
    for (i in activitylist){
     activity = activitylist[i]
     document.getElementById('activitylist').style.display = ""
-    document.getElementById('activities').innerHTML += '<tr><td>'+activity['title']+'</td><td>'+activity['start']+'</td><td>'+activity['end']+'</td><td><a href="'+activity['newsdetail']+'">查看详情</a><br><a href="/apply">申请</a></td></tr>'
+    document.getElementById('activities').innerHTML += '<tr><td>'+activity['title']+'</td><td>'+activity['start']+'</td><td>'+activity['end']+'</td><td><a href="'+activity['newsdetail']+'">查看详情</a></td></tr>'
    }
   }
 
@@ -35,12 +35,12 @@
     for (i in applylist){
       apply = applylist[i]
       document.getElementById('status').innerHTML = '<font style="color:green">已申请</p>'
-      document.getElementById('applies').innerHTML = '<a href="#" onclick="getapplymaterial(\''+apply['title']+'\')">下载已提交材料</a><br><a href="/applymodify">修改申请材料</a><br><a href="#" onclick="apply_cancel(\''+apply['title']+'\')">取消申请</a><br>'
+      document.getElementById('applies').innerHTML = '<a href="#" onclick="getapplymaterial(\''+apply['title']+'\')">下载已提交材料</a>'
     }
-  }*/
+  }
 
   </script>
-  <body onload="checklogin();showuserinfo();showrecentnews();">
+  <body onload="checklogin();showuserinfo();showrecentnews();showactivitylist();">
   	
     <nav class="navbar navbar-inverse visible-xs">
   <div class="container-fluid">
@@ -125,7 +125,7 @@
                       <td id="applydate">无</td>
                       <td id="lastmodify">无</td>
                       <td id="status"><font style="color:red">未申请</font></td>
-                      <td id="applies"><a href="/static/2016本科生夏令营入营名单.pdf">查看入营名单</a></td>
+                      <td id="applies"></td>
                     </tr>
                   </table>
                 </div>
@@ -140,19 +140,24 @@
                       <td width="25%">操作</td>
                     </tr>
                     <tr>
+                      <td>（四）清华大学计算机科学与技术系计算机学科优秀大学生夏令营的通知</td>
+                      <td>2017-06-23</td>
+                      <td><a href="/static/清华大学计算机科学与技术系举办计算机学科优秀大学生夏令营的通知.docx">查看详情</a></td>
+                    </tr>
+                    <tr>
                       <td>（三）清华大学计算机科学与技术系计算机学科优秀大学生夏令营入营名单公布</td>
-                      <td>2016-07-01</td>
-                      <td><a href="/static/2016本科生夏令营入营名单.pdf">查看名单</a></td>
+                      <td>2017-06-23</td>
+                      <td><a href="/static/夏令营入营名单.xlsx">查看名单</a></td>
                     </tr>
                     <tr>
-                      <td>（二）清华大学计算机科学与技术系关于举办2016年计算机学科优秀大学生 夏令营网上报名的通知</td>
-                      <td>2016-05-20</td>
-                      <td><a href="/static/news/notice.html">查看详情</a></td>
+                      <td>（二）清华大学计算机科学与技术系关于举办2017年计算机学科优秀大学生 夏令营网上报名的通知</td>
+                      <td>2017-05-11</td>
+                      <td><a href="/static/news/notice2017.html">查看详情</a></td>
                     </tr>
                     <tr>
-                      <td>（一）清华大学计算机系2016年全国优秀大学生夏令营报名预通知</td>
-                      <td>2016-05-10</td>
-                      <td><a href="/static/news/prenotice.html">查看详情</a></td>
+                      <td>（一）清华大学计算机系2017年全国优秀大学生夏令营报名预通知</td>
+                      <td>2017-04-25</td>
+                      <td><a href="http://mp.weixin.qq.com/s/6XwcpSZHRYitdvnI3IvOAg">查看详情</a></td>
                     </tr>
                     
                   </table>

@@ -74,7 +74,7 @@ def getactivity():
 '''
 @app.route('/cancel', methods=['POST'])
 def cancel():
-	return ''
+	return u'已截止'
 	jsondata = request.form
 	data = immutabledict2dict(jsondata)
 	result = {'success' :0}
@@ -115,7 +115,7 @@ def upload():
 
 @app.route('/submit', methods=['GET', 'POST'])
 def submit():
-	return ''
+	return u'已截止'
 	jsondata = request.form
 	data = immutabledict2dict(jsondata)
 	result = {'success' :0}
@@ -155,6 +155,7 @@ def submit():
 					os.makedirs(directory)
 				except:
 					a = 1
+					print '111'
 				file.save(os.path.join(app.config['UPLOAD_FOLDER'], data['username'],filename))
 				applydata['filename'] = filename
 			else:
@@ -185,7 +186,7 @@ def submit():
 
 @app.route('/applymodifysubmit', methods=['GET', 'POST'])
 def applymodifysubmit():
-	return ''
+	return u'已截止'
 	jsondata = request.form
 	data = immutabledict2dict(jsondata)
 	result = {'success' :0}
@@ -245,7 +246,7 @@ def applymodifysubmit():
 
 @app.route('/getapplymaterial/<jsondata>', methods=['GET','POST'])
 def getapplymaterial(jsondata):
-	return ''
+	#return ''
 	data = json.loads(jsondata)
 	result = {'success' :0}
 	try:

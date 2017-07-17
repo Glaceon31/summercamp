@@ -14,7 +14,7 @@ from pymongo import MongoClient
 
 client = MongoClient(connect=False)
 
-db = client.thusummercamp
+db = client.thusummercamp2017
 userdb = db.user
 
 @app.route('/viewdata')

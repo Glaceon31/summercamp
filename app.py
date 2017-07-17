@@ -11,7 +11,7 @@ from pymongo import MongoClient
 
 client = MongoClient(connect=False)
 
-db = client.thusummercamp
+db = client.thusummercamp2017
 
 @app.route('/')
 @app.route('/entrance')
